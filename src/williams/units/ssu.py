@@ -1,10 +1,9 @@
 """units for neural networks, as described in Williams 1992"""
 import numpy as np
-from scipy.special import expit as logistic
 
 
-class BernoulliLogisticUnit:
-    """Bernoulli Logistic Unit, as described in Williams 1992
+class StochasticSemilinearUnit:
+    """Base class for all stochastic semilinear units
 
     Attributes
     ----------
@@ -14,10 +13,8 @@ class BernoulliLogisticUnit:
         weights
     s : numpy.ndarray
         dot product of x and w
-    f : logistic
-        scipy.special.expit, used as squashing function applied to s to get p
     p : numpy.ndarray
-        parameter for Bernoulli distribution, computed as self.f(self.s)
+        parameter for distributions, computed as self.f(self.s)
     y : numpy.ndarray
         outputs
 
@@ -25,19 +22,23 @@ class BernoulliLogisticUnit:
     -------
     forward
         "forward pass" through unit; accepts inputs, returns outputs
-    bernoulli_sample
-        static method that accepts parameter p and returns samples from Bernoulli distribution
+    sample
+        static method that accepts parameter p and returns samples from distribution specified for each
+        type of stochastic semilinear unit
+    f
+        static method, squashing function applied to self.s to produce self.p
     e
         characteristic eligibility, as derived in Williams 1992
     reset
         resets following attributes to zero: x, s, p, and y
     """
+
     def __init__(self,
                  input_size,
                  weights_low=-0.5,
                  weights_high=-0.5
                  ):
-        """__init__ for a Bernoulli Logistic Unit
+        """__init__ for a stochastic semilinear unit
 
         Parameters
         ----------
@@ -64,20 +65,26 @@ class BernoulliLogisticUnit:
         self.w = np.random.uniform(low=weights_low,
                                    high=weights_high,
                                    size=(input_size[1],))
-        self.f = logistic
         self.x = 0
         self.s = 0
         self.p = 0
         self.y = 0
 
     @staticmethod
-    def bernoulli_sample(p):
-        return np.ceil(p - np.random.uniform(size=p.shape)).astype(int)
+    def f(s):
+        """squashing function f, compute parameters p
+        using s (dot product of input x and weights w)"""
+        raise NotImplementedError
+
+    @staticmethod
+    def sample(p):
+        """sample from distributions using vector of parameters p"""
+        raise NotImplementedError
 
     def forward(self, x=None):
         """forward pass through unit. Weights convert inputs to vector of
-        parameters for Beroulli distributions, p, which are then sampled
-        to produce output y.
+        parameters, p, for a family of distributions defined for each class.
+        Distributions with parameters p are then sampled to produce output y.
 
         Parameters
         ----------
@@ -90,7 +97,7 @@ class BernoulliLogisticUnit:
         Returns
         -------
         y : numpy.ndarray
-            output vector. Samples from Bernoulli distribution.
+            output vector. Samples from distribution.
         """
         if x is None:
             x = np.ones(shape=self.input_size)
@@ -102,12 +109,12 @@ class BernoulliLogisticUnit:
         self.x = x
         self.s = np.dot(x, self.w)
         self.p = self.f(self.s)
-        self.y = self.bernoulli_sample(self.p)
+        self.y = self.sample(self.p)
         return self.y
 
     def e(self):
         """characteristic eligibility"""
-        return (self.y - self.p) * self.x
+        raise NotImplementedError
 
     def reset(self):
         self.x = 0
