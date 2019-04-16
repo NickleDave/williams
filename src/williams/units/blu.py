@@ -85,4 +85,4 @@ class BernoulliLogisticUnit(StochasticSemilinearUnit):
 
     def e(self):
         """characteristic eligibility"""
-        return (self.y - self.p) * self.x
+        return (self.y - self.p)[:, np.newaxis] * self.x
