@@ -27,8 +27,9 @@ class Trainer:
                 trial_arms.append(arms)
                 r = self.bandit.pull(arms)
                 trial_r.append(r)
-                delta_w = self.alpha * r * self.agent.e()
-                self.agent.w += delta_w
+                delta_ws = self.alpha * r * self.agent.e()
+                for delta_w in delta_ws:
+                    self.agent.w += delta_w
             mean_reward = np.mean(trial_r)
             uniq_arms, counts = np.unique(trial_arms, return_counts=True)
             p_arm = np.zeros(shape=(self.bandit.num_arms,))

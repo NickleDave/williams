@@ -100,9 +100,6 @@ class StochasticSemilinearUnit:
         y : numpy.ndarray
             output vector. Samples from distribution.
         """
-        if x is None:
-            x = np.ones(shape=self.input_size)
-
         if x.shape != self.input_size:
             raise ValueError(f"shape of x, {x.shape}, does not "
                              f"equal input size of unit, {self.input_size}")
