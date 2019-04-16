@@ -53,8 +53,8 @@ class Trainer:
             'mean_reward': mean_reward_epoch,
             'p_arm': p_arm_epoch,
             'mean_trial_p': mean_trial_p_epoch,
-            'below_max': below_max_epoch
-            'change_in_w': change_in_w_epoch
+            'below_max': below_max_epoch,
+            'change_in_w': change_in_w_epoch,
         }
 
         return summary
