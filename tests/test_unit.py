@@ -25,13 +25,15 @@ class TestBernoulliLogisticUnit(unittest.TestCase):
     def test_forward(self):
         input_size = (10, 20)
         blu = BernoulliLogisticUnit(input_size=input_size)
-        y = blu.forward()
+        x = np.ones(shape=input_size)
+        y = blu.forward(x)
         self.assertTrue(type(y) == np.ndarray)
         self.assertTrue(y.shape == blu.input_size[:1])
 
         input_size = 20
         blu = BernoulliLogisticUnit(input_size=input_size)
-        y = blu.forward()
+        x = np.ones(shape=(1, input_size))
+        y = blu.forward(x)
         self.assertTrue(type(y) == np.ndarray)
         self.assertTrue(y.shape == blu.input_size[:1])
 
