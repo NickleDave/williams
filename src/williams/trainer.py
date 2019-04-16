@@ -25,7 +25,7 @@ class Trainer:
         for epoch in pbar:
             arms = self.agent.act()
             r = self.bandit.pull(arms)
-            delta_ws = self.alpha * r * self.agent.net.e()
+            delta_ws = self.alpha * r[:, np.newaxis] * self.agent.net.e()
             for delta_w in delta_ws:
                 self.agent.net.w += delta_w
 
