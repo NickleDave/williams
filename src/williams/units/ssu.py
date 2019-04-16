@@ -1,4 +1,5 @@
-"""units for neural networks, as described in Williams 1992"""
+"""Stochastic Semilinear Units for neural networks, as described in Williams 1992.
+Base class from which others inherit"""
 import numpy as np
 
 
