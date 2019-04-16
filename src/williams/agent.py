@@ -10,7 +10,7 @@ class Agent:
         raise NotImplementedError
 
 
-class EpsilonAgent(Agent):
+class EpsilonGreedyAgent(Agent):
     def __init__(self, actions, net, epsilon):
         super().__init__(actions, net)
         self.epsilon = epsilon
