@@ -36,7 +36,7 @@ class BernoulliLogisticUnit:
 
     def forward(self, x=None):
         if x is None:
-            x = np.random.normal(size=self.input_size)
+            x = np.ones(shape=self.input_size)
 
         if x.shape != self.input_size:
             raise ValueError(f"shape of x, {x.shape}, does not "
