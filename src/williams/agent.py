@@ -49,14 +49,13 @@ class Agent:
 
 
 class EpsilonGreedyAgent(Agent):
-    def __init__(self, actions, net, epsilon):
-        super().__init__(actions, net)
+    def __init__(self, n_actions, net, epsilon):
+        super().__init__(n_actions, net)
         self.epsilon = epsilon
 
     def act(self, inputs=None):
-        xi = np.random.uniform()
-        if xi > self.epsilon:  # act greedily
-            action = self.net.forward(input)
-        else:  # explore
-            action = np.random.choice(self.actions)
-        return action
+        out = super().act(inputs)
+        xi = np.random.uniform(out.shape[0])
+        explore_trials = np.where(xi < self.epsilon)[0]
+        out[explore_trials] = np.random.choice(self.actions_arr, size=explore_trials.shape)
+        return out
