@@ -14,7 +14,7 @@ class Trainer:
 
     def train(self, epochs):
         pbar = tqdm(range(epochs))
-        original_w = np.copy(self.agent.w)
+        original_w = np.copy(self.agent.net.w)
 
         mean_reward_epoch = []
         p_arm_epoch = []
