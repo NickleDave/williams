@@ -25,7 +25,27 @@ class Agent:
         self.net = net
 
     def act(self, inputs=None):
-        raise NotImplementedError
+        """
+
+        Parameters
+        ----------
+        inputs : numpy.ndarray
+            input to network that selects actions, with shape (batch size, length).
+            Default is None, in which case an input of np.ones(self.net.input_size)
+            is forwarded through the unit. This is useful for environments where
+            the only "input signal" is reward, e.g., non-associative learning tasks
+            like a multi-arm bandit.
+
+        Returns
+        -------
+        out : numpy.ndarray
+            with shape (batch size,). A vector of actions to take where each action
+            is represented by an integer and is in the set self.actions
+        """
+        if inputs is None:
+            inputs = np.ones(shape=self.net.input_size)
+        out = self.net.forward(inputs)
+        return out
 
 
 class EpsilonGreedyAgent(Agent):
