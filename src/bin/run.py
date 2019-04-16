@@ -1,6 +1,6 @@
 import numpy as np
 
-from williams.unit import BernoulliLogisticUnit
+from williams.units.blu import BernoulliLogisticUnit
 from williams.bandit import MultiArmBandit
 from williams.trainer import Trainer
 
