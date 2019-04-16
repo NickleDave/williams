@@ -90,10 +90,7 @@ class StochasticSemilinearUnit:
         Parameters
         ----------
         x : numpy.ndarray
-            input vector. Default is None, in which case an input of
-            np.ones(self.input_size) is forwarded through the unit.
-            This is useful for environments where the only "input signal" is reward,
-            e.g., non-associative learning tasks like a multi-arm bandit.
+            input vector.
 
         Returns
         -------
